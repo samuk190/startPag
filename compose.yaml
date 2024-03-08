@@ -1,0 +1,8 @@
+services:
+  oracle:
+    image: 'gvenzl/oracle-free:latest'
+    environment:
+      - 'ORACLE_PASSWORD=secret'
+      - 'ORACLE_PWD=secret'
+    ports:
+      - 1521:1521
