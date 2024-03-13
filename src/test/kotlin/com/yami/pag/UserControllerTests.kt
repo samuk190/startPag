@@ -32,19 +32,18 @@ class UserControllerTest {
 
     @Test
     fun `test create user`() {
-        val user = User(/* provide user parameters */)
+        val user = User()
         whenever(userRepository.save(any<User>())).thenReturn(user)
 
         mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk)
-        // Add more expect statements as needed
     }
 
     @Test
     fun `test get all users`() {
-        val users = listOf(User(/* parameters */), User(/* parameters */))
+        val users = listOf(User(), User())
         whenever(userRepository.findAll()).thenReturn(users)
 
         mockMvc.perform(get("/users")
@@ -55,7 +54,7 @@ class UserControllerTest {
 
     @Test
     fun `test get user by id`() {
-        val user = User(/* parameters */)
+        val user = User()
         val userId = 1L
         whenever(userRepository.findById(userId)).thenReturn(java.util.Optional.of(user))
 
@@ -68,12 +67,10 @@ class UserControllerTest {
     @Test
     fun `test update user`() {
         val userId = 1L
-        // Assuming User class is correctly initialized here.
         val existingUser = User(103)
         val updatedUser = existingUser.copy(103)
 
         whenever(userRepository.findById(userId)).thenReturn(Optional.of(existingUser))
-        // Ensure updatedUser is not null. If it's a data class, make sure it's properly initialized.
         whenever(userRepository.save(any<User>())).thenReturn(updatedUser)
 
         mockMvc.perform(put("/users/$userId")
@@ -85,7 +82,7 @@ class UserControllerTest {
     @Test
     fun `test delete user`() {
         val userId = 1L
-        val user = User(/* parameters */)
+        val user = User()
 
         whenever(userRepository.findById(userId)).thenReturn(java.util.Optional.of(user))
 
