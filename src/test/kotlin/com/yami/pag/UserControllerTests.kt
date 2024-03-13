@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import java.util.*
 
 @ExtendWith(MockitoExtension::class, SpringExtension::class)
 @WebMvcTest(UserController::class)
@@ -32,7 +33,7 @@ class UserControllerTest {
     @Test
     fun `test create user`() {
         val user = User(/* provide user parameters */)
-        whenever(userRepository.save(any())).thenReturn(user)
+        whenever(userRepository.save(any<User>())).thenReturn(user)
 
         mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -67,11 +68,13 @@ class UserControllerTest {
     @Test
     fun `test update user`() {
         val userId = 1L
-        val existingUser = User(/* parameters for existing user */)
-        val updatedUser = existingUser.copy(/* updated parameters */)
+        // Assuming User class is correctly initialized here.
+        val existingUser = User(103)
+        val updatedUser = existingUser.copy(103)
 
-        whenever(userRepository.findById(userId)).thenReturn(java.util.Optional.of(existingUser))
-        whenever(userRepository.save(any())).thenReturn(updatedUser)
+        whenever(userRepository.findById(userId)).thenReturn(Optional.of(existingUser))
+        // Ensure updatedUser is not null. If it's a data class, make sure it's properly initialized.
+        whenever(userRepository.save(any<User>())).thenReturn(updatedUser)
 
         mockMvc.perform(put("/users/$userId")
                 .contentType(MediaType.APPLICATION_JSON)
